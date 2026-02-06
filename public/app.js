@@ -19,6 +19,7 @@ var categoryChips = document.getElementById("categoryChips");
 var libraryBtn = document.getElementById("libraryBtn");
 var libraryBadge = document.getElementById("libraryBadge");
 var savedBackBtn = document.getElementById("savedBackBtn");
+var exportBtn = document.getElementById("exportBtn");
 var categoryModal = document.getElementById("categoryModal");
 var modalChips = document.getElementById("modalChips");
 var modalClose = document.getElementById("modalClose");
@@ -84,6 +85,7 @@ var bookmarkOutlineIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentC
 var bookmarkFilledIcon = '<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>';
 var shareIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>';
 var removeIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+var moveIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L12 22"/><path d="M17 7l-5-5-5 5"/><path d="M17 17l-5 5-5-5"/><path d="M2 12h20"/><path d="M7 7L2 12l5 5"/><path d="M17 7l5 5-5 5"/></svg>';
 
 // ── Action bar HTML ─────────────────────────────────────────────────
 function buildActionBar(article, type) {
@@ -176,6 +178,59 @@ function closeSavedScreen() {
 libraryBtn.addEventListener("click", openSavedScreen);
 savedBackBtn.addEventListener("click", closeSavedScreen);
 
+// ── Export library ──────────────────────────────────────────────────
+exportBtn.addEventListener("click", exportLibrary);
+
+function csvEscape(str) {
+  var s = String(str || "");
+  if (s.indexOf(",") !== -1 || s.indexOf('"') !== -1 || s.indexOf("\n") !== -1) {
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+  return s;
+}
+
+function exportLibrary() {
+  var keys = Object.keys(bookmarks);
+  if (!keys.length) {
+    showToast("Nothing to export");
+    return;
+  }
+
+  var rows = ["Category,Title,Source,URL"];
+  for (var i = 0; i < keys.length; i++) {
+    var bm = bookmarks[keys[i]];
+    var art = bm.articleData;
+    var row = csvEscape(bm.category)
+      + "," + csvEscape(art.title || "Untitled")
+      + "," + csvEscape(art.journal || art.source || "")
+      + "," + csvEscape(getArticleHref(art));
+    rows.push(row);
+  }
+
+  var csv = rows.join("\n");
+
+  if (navigator.share && navigator.canShare) {
+    var file = new File([csv], "cardio-library.csv", { type: "text/csv" });
+    var shareData = { title: "Cardio Weekly Library", files: [file] };
+    if (navigator.canShare(shareData)) {
+      navigator.share(shareData).catch(function() {});
+      return;
+    }
+  }
+
+  // Fallback: download file
+  var blob = new Blob([csv], { type: "text/csv" });
+  var dlUrl = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = dlUrl;
+  a.download = "cardio-library.csv";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(dlUrl);
+  showToast("Downloaded!");
+}
+
 function updateLibraryBadge() {
   var count = Object.keys(bookmarks).length;
   if (count > 0) {
@@ -249,7 +304,8 @@ function renderSaved() {
       + '<div class="card-meta">' + escHtml(aData.journal || aData.source || "") + '</div>'
       + '<div class="card-actions">'
       + '<span class="category-badge">' + escHtml(bData.category) + '</span>'
-      + '<button class="remove-btn" data-action="remove" data-id="' + escHtml(item.id) + '" aria-label="Remove">' + removeIcon + '</button>'
+      + '<button class="action-btn" data-action="recategorize" data-id="' + escHtml(item.id) + '" aria-label="Change category">' + moveIcon + '</button>'
+      + '<button class="action-btn" data-action="remove" data-id="' + escHtml(item.id) + '" aria-label="Remove">' + removeIcon + '</button>'
       + '</div>'
       + '</' + tag + '>';
   }
@@ -295,6 +351,16 @@ document.addEventListener("click", function(e) {
     var artInfo2 = articleMap[id];
     if (artInfo2) {
       shareArticle(artInfo2.data);
+    }
+  }
+
+  if (action === "recategorize") {
+    e.preventDefault();
+    e.stopPropagation();
+    var existing = bookmarks[id];
+    if (existing) {
+      pendingBookmarkArticle = { id: id, data: existing.articleData, type: existing.type };
+      openCategoryModal();
     }
   }
 

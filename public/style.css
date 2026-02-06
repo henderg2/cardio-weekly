@@ -417,26 +417,7 @@ main {
   position: relative;
 }
 
-.saved-card .remove-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  padding: 6px 8px;
-  border-radius: 8px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  margin-left: auto;
-}
-
-.saved-card .remove-btn svg {
-  width: 18px;
-  height: 18px;
-}
-
-.saved-card .remove-btn:active {
+.saved-card .action-btn[data-action="remove"]:active {
   color: var(--red);
 }
 
