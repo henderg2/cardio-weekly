@@ -68,7 +68,14 @@ header {
   margin-top: 1px;
 }
 
-.refresh-btn {
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.header-btn {
+  position: relative;
   background: none;
   border: none;
   color: var(--accent);
@@ -79,12 +86,34 @@ header {
   transition: background 0.2s;
 }
 
-.refresh-btn:active {
+.header-btn:active {
   background: var(--accent-glow);
 }
 
 .refresh-btn.spinning svg {
   animation: spin 0.8s linear infinite;
+}
+
+.library-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 16px;
+  height: 16px;
+  background: var(--red);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.library-badge.hidden {
+  display: none;
 }
 
 @keyframes spin {
@@ -303,20 +332,59 @@ main {
   margin-left: auto;
 }
 
-/* ── Saved section ──────────────────────────────────────────────── */
-.saved-section.hidden {
-  display: none;
+/* ── Saved screen ───────────────────────────────────────────────── */
+.saved-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: var(--bg);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.saved-icon {
-  background: var(--red);
+.saved-screen.open {
+  transform: translateX(0);
+}
+
+.saved-screen header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(10,15,26,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding-top: var(--safe-top);
+}
+
+.saved-screen .header-inner {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  gap: 12px;
+}
+
+.saved-screen h1 {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.saved-screen-body {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px 16px calc(40px + var(--safe-bottom));
 }
 
 .category-chips {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  padding-bottom: 10px;
+  padding-bottom: 14px;
 }
 
 .chip {
@@ -361,6 +429,11 @@ main {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   margin-left: auto;
+}
+
+.saved-card .remove-btn svg {
+  width: 18px;
+  height: 18px;
 }
 
 .saved-card .remove-btn:active {

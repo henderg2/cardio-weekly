@@ -24,26 +24,47 @@
             <p class="subtitle" id="period"></p>
           </div>
         </div>
-        <button class="refresh-btn" id="refreshBtn" aria-label="Refresh">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="23 4 23 10 17 10"/>
-            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
-          </svg>
-        </button>
+        <div class="header-actions">
+          <button class="header-btn" id="libraryBtn" aria-label="Saved articles">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            <span class="library-badge hidden" id="libraryBadge"></span>
+          </button>
+          <button class="header-btn refresh-btn" id="refreshBtn" aria-label="Refresh">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"/>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </header>
 
-    <main>
-      <section class="section saved-section hidden" id="savedSection">
-        <h2 class="section-heading">
-          <span class="section-icon saved-icon"></span>
-          Saved
-          <span class="count" id="savedCount"></span>
-        </h2>
+    <!-- Saved screen (separate view) -->
+    <div class="saved-screen" id="savedScreen">
+      <header>
+        <div class="header-inner">
+          <button class="header-btn" id="savedBackBtn" aria-label="Back">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+          </button>
+          <div>
+            <h1>Library</h1>
+          </div>
+          <span class="count" id="savedCount" style="margin-left:auto"></span>
+        </div>
+      </header>
+      <div class="saved-screen-body">
         <div class="category-chips" id="categoryChips"></div>
         <div class="card-list" id="savedList"></div>
-      </section>
+        <p class="empty-msg" id="savedEmpty" style="display:none">No saved articles yet. Bookmark articles from the feed.</p>
+      </div>
+    </div>
 
+    <main>
       <section class="section">
         <h2 class="section-heading">
           <span class="section-icon research-icon"></span>
