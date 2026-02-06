@@ -34,6 +34,16 @@
     </header>
 
     <main>
+      <section class="section saved-section hidden" id="savedSection">
+        <h2 class="section-heading">
+          <span class="section-icon saved-icon"></span>
+          Saved
+          <span class="count" id="savedCount"></span>
+        </h2>
+        <div class="category-chips" id="categoryChips"></div>
+        <div class="card-list" id="savedList"></div>
+      </section>
+
       <section class="section">
         <h2 class="section-heading">
           <span class="section-icon research-icon"></span>
@@ -52,6 +62,24 @@
         <div class="card-list" id="newsList"></div>
       </section>
     </main>
+
+    <!-- Category picker modal -->
+    <div class="modal-overlay hidden" id="categoryModal">
+      <div class="modal-sheet">
+        <div class="modal-header">
+          <span class="modal-title">Save to category</span>
+          <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+        </div>
+        <div class="modal-chips" id="modalChips"></div>
+        <div class="modal-add-row">
+          <input type="text" id="newCategoryInput" class="modal-input" placeholder="New category..." maxlength="30">
+          <button class="modal-add-btn" id="addCategoryBtn">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast hidden" id="toast"></div>
 
     <div class="loading" id="loading">
       <div class="pulse-heart">
