@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Cardio Weekly">
+  <meta name="theme-color" content="#0a0f1a">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon.svg">
+  <link rel="stylesheet" href="/style.css">
+  <title>Cardio Weekly</title>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="header-inner">
+        <div class="logo">
+          <img src="/icon.svg" alt="" width="36" height="36">
+          <div>
+            <h1>Cardio Weekly</h1>
+            <p class="subtitle" id="period"></p>
+          </div>
+        </div>
+        <button class="refresh-btn" id="refreshBtn" aria-label="Refresh">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"/>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <h2 class="section-heading">
+          <span class="section-icon research-icon"></span>
+          Research Publications
+          <span class="count" id="researchCount"></span>
+        </h2>
+        <div class="card-list" id="researchList"></div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-heading">
+          <span class="section-icon news-icon"></span>
+          Business &amp; Industry News
+          <span class="count" id="newsCount"></span>
+        </h2>
+        <div class="card-list" id="newsList"></div>
+      </section>
+    </main>
+
+    <div class="loading" id="loading">
+      <div class="pulse-heart">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="#ff4d6a">
+          <path d="M12 4.5C7 -0.5 0 3 0 9c0 5 12 13 12 13s12-8 12-13c0-6-7-9.5-12-4.5z"/>
+        </svg>
+      </div>
+      <p>Loading digest...</p>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

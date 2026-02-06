@@ -1,0 +1,20 @@
+{
+  "name": "cardio-weekly",
+  "version": "1.0.0",
+  "description": "Weekly high-impact cardiology research and business news digest",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "cli": "node cardio-weekly.js",
+    "digest": "node cardio-weekly.js -o digest.md"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "express": "^5.2.1",
+    "rss-parser": "^3.13.0"
+  }
+}
